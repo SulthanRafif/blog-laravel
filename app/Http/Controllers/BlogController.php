@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -14,12 +16,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $following = Auth::user()->follows->pluck('id'); 
-        $blogs = Blog::whereIn('user_id', $following)->latest()->get();
-
-        // $blogs = Blog::whereIn('user_id', Auth::user()->id)->get();
-        // $blogs = Auth::user()->blogs;
-
+        $blogs = Auth::user()->timeline();
         return view('blogs.index', compact('blogs'));
     }
 
@@ -39,9 +36,16 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        //
+        Auth::user()->blogs()->create([
+            'user_id' => Auth::id(),
+            'judul' => $request->judul,
+            'body' => $request->body,
+            'identifier' => Str::random(32)
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -61,9 +65,10 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Blog $blog)
     {
-        //
+        // dd($blog);
+        return view('blogs.edit', ['blog' => $blog]);
     }
 
     /**
@@ -75,7 +80,12 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Blog::find($id)->update([
+            'user_id' => Auth::id(),
+            'judul' => $request->judul,
+            'body' => $request->body,
+        ]);
+        return redirect('blogs');
     }
 
     /**
@@ -86,6 +96,7 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Blog::find($id)->delete();
+        return back();
     }
 }

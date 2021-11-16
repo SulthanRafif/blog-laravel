@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Blog;
 use App\Events\UserCreated;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,6 +54,15 @@ class User extends Authenticatable
     public function blogs()
     {
         return $this->hasMany(Blog::class);
+    }
+
+    public function timeline()
+    {
+        $following = $this->follows->pluck('id'); 
+        return Blog::whereIn('user_id', $following)
+                        ->orWhere('user_id', $this->id)
+                        ->latest()
+                        ->get();
     }
 
     public function follows()
