@@ -8,19 +8,13 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', HomeController::class);
-
-Auth::routes();
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function() {
-
-    Route::group(['middleware' => 'admin'], function() {
-        Route::get('admin', [AdminController::class, 'index']);
-    });
-
-    Route::group(['middleware' => 'user'], function() {
-        Route::resource('blogs', BlogController::class);
-    });
+    
+    Route::middleware('role:user')->resource('blogs', BlogController::class);
+    
+    Route::middleware('role:admin')->get('admin', [AdminController::class, 'index'])->name('admin');
     
     Route::post('logout', LogoutController::class)->name('logout');
 });
@@ -33,3 +27,5 @@ Route::middleware('guest')->group(function() {
     Route::post('login', [LoginController::class, 'store']);
 });
 
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

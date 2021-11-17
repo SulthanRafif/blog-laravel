@@ -12,11 +12,11 @@
                 </li>
                 @endforeach
                 @auth
-                    @if (auth()->user()->mark==0)
+                    @if (Auth::user()->hasRole('user'))
                     <li class="nav-item">
                         <a class="nav-link" href="/blogs">Blogs</a>
                     </li>
-                    @elseif (auth()->user()->mark==1)
+                    @elseif (Auth::user()->hasRole('admin'))
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin Page</a>
                     </li>

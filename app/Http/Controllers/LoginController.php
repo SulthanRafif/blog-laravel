@@ -11,22 +11,11 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('auth.login');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -35,7 +24,15 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($attributes)) {
-            return redirect(RouteServiceProvider::HOME)->with('success', 'You are now logged in');
+            // dd(Auth::user());
+
+            if(Auth::user()->hasRole('admin')){
+                return redirect('/')->with('success', 'Anda Berhasil Login Sebagai Admin');
+            }
+
+            return redirect('/')->with('success', 'Anda Berhasil Login Sebagai User');
+
+            // redirect(RouteServiceProvider::HOME)->with('success', 'Anda Berhasil Masuk Sebagai Admin');
         }
 
         throw ValidationException::withMessages([
