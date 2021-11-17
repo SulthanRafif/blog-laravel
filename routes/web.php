@@ -6,11 +6,22 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', HomeController::class);
 
+Auth::routes();
+
 Route::middleware('auth')->group(function() {
-    Route::resource('blogs', BlogController::class);
+
+    Route::group(['middleware' => 'admin'], function() {
+        Route::get('admin', [AdminController::class, 'index']);
+    });
+
+    Route::group(['middleware' => 'user'], function() {
+        Route::resource('blogs', BlogController::class);
+    });
+    
     Route::post('logout', LogoutController::class)->name('logout');
 });
 

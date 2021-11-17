@@ -12,9 +12,15 @@
                 </li>
                 @endforeach
                 @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="/blogs">Blogs</a>
-                </li>
+                    @if (auth()->user()->mark==0)
+                    <li class="nav-item">
+                        <a class="nav-link" href="/blogs">Blogs</a>
+                    </li>
+                    @elseif (auth()->user()->mark==1)
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin Page</a>
+                    </li>
+                    @endif
                 @endauth
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
