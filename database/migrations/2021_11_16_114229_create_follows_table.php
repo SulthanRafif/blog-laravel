@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateFollowsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations for the follows table.
      *
      * @return void
      */
@@ -22,7 +22,7 @@ class CreateFollowsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations for the follows table.
      *
      * @return void
      */

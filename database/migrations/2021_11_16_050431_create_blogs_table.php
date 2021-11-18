@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateBlogsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations for the blogs table.
      *
      * @return void
      */
@@ -26,7 +26,7 @@ class CreateBlogsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations for the blogs table.
      *
      * @return void
      */
