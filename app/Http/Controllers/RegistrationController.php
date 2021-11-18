@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class RegistrationController extends Controller
 {
+    /**
+     * Menampilkan Register
+     * 
+     * @return view('auth.register');
+     */
     public function create()
     {
         return view('auth.register');

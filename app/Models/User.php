@@ -17,6 +17,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
+    /**
+     * Kolom pada Tabel Users yang dapat diisi
+     * 
+     * @var fillable
+     */
     protected $fillable = [
         'name',
         'username',
@@ -24,53 +29,52 @@ class User extends Authenticatable
         'password',
     ];
 
+    /**
+     * Kolom pada Tabel Users yang bersifat hidden
+     * 
+     * @var hidden
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * Menentukan Tipe Data pada Kolom email_verified_at pada Tabel Users
+     * 
+     * @var cast
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Proses enkripsi Data Password yang dimasukkan saat proses Registrasi 
+     * 
+     * @var this->attributes['password']
+     */
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
     }
 
+    /**
+     * Relasi terhadap Tabel Users dengan Tabel Blogs yang bersifat One to Many
+     * 
+     * @var this->attributes['password']
+     */
     public function blogs()
     {
         return $this->hasMany(Blog::class);
     }
 
-    public function makeBlog($body, $judul, $categories)
-    {
-        $this->blogs()->create([
-            'categories' => $categories,
-            'judul' => $judul,
-            'body' => Str::limit(strip_tags($body), 200),
-            'identifier' => Str::slug(Str::random(31) . $this->id),
-            'slug' => Str::slug($judul)
-        ]);
-    }
-
-    public function timeline()
-    {
-        $following = $this->follows->pluck('id'); 
-        return Blog::whereIn('user_id', $following)
-                        ->orWhere('user_id', $this->id)
-                        ->latest()
-                        ->get();
-    }
-
+    /**
+     * Relasi terhadap Tabel Users dengan Tabel Blogs yang bersifat One to Many
+     * 
+     * @var following
+     */
     public function follows()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withTimestamps();
     }
-
-    public function follow(User $user)
-    {
-        return $this->follows()->save($user);
-    }
-
 }

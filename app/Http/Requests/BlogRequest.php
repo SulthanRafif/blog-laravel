@@ -7,11 +7,26 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BlogRequest extends FormRequest
 {
+    /**
+     * Mengaktifkan otorisasi Request untuk Data Blog
+     * 
+     * @return true
+     */
     public function authorize()
     {
         return true;
     }
 
+    /**
+     * Rules validasi untuk mengisi Data Blog
+     * 
+     * @return 
+     * [
+     * 'body' => 'required', 
+     * 'judul' => 'required|max:25', 
+     * 'categories' => 'required|max:25' 
+     * ]
+     */
     public function rules()
     {
         return [
@@ -19,10 +34,5 @@ class BlogRequest extends FormRequest
             'judul' => 'required|max:25',
             'categories' => 'required|max:25'
         ];
-    }
-
-    public function make()
-    {
-        return Auth::user()->makeBlog($this->body, $this->judul, $this->categories);
     }
 }

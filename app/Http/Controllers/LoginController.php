@@ -11,11 +11,23 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
+    /**
+     * Menampilkan Form untuk Login 
+     * 
+     * @return view('auth.login');
+     */
     public function create()
     {
         return view('auth.login');
     }
 
+    /**
+     * Proses Autentikasi Login
+     * 
+     * @var attributes
+     * 
+     * @return redirect('/dashboard')->with('success', 'Anda Berhasil Login Sebagai User');
+     */
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -24,7 +36,6 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($attributes)) {
-            // dd(Auth::user());
 
             if(Auth::user()->hasRole('admin')){
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login Sebagai Admin');

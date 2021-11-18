@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
+    /**
+     * Proses Autentikasi Logout
+     * 
+     * @return view('auth.login');
+     */
     public function __invoke()
     {
         Auth::logout();
-
-        // Redirect
         return redirect(RouteServiceProvider::HOME);
     }
 }
