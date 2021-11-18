@@ -1,7 +1,7 @@
-<x-app-layout title="Admin Page">
-    <x-container>
-        <div class="container">
-            Ini Halaman Admin
-        </div>
-    </x-container>
-</x-app-layout>
+@extends('dashboard.layouts.main')
+
+@section('container')
+    <div class="container mt-3">
+        Ini Halaman Admin
+    </div>
+@endsection

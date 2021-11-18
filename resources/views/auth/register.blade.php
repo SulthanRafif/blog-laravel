@@ -1,8 +1,10 @@
-<x-app-layout>
+@extends('dashboard.layouts.main')
+
+@section('container')
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-header">Create new account</div>
                     <div class="card-body">
                         <form action="{{ route('register') }}" method="post">
@@ -50,4 +52,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

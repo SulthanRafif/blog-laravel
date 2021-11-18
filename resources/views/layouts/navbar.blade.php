@@ -16,6 +16,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/blogs">Blogs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
                     @elseif (Auth::user()->hasRole('admin'))
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin Page</a>

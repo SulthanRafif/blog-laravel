@@ -1,6 +1,8 @@
-<x-app-layout title="Edit Post">
+@extends('dashboard.layouts.main')
+
+@section('container')
     <div class="container">
-         <div class="card">
+         <div class="card mt-3">
             <div class="card-header">Buat Postingan Blog</div>
                 <div class="card-body">
                     <form action="{{ route('blogs.update', $blog->id) }}" method="post">
@@ -30,4 +32,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

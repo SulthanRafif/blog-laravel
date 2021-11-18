@@ -27,12 +27,10 @@ class LoginController extends Controller
             // dd(Auth::user());
 
             if(Auth::user()->hasRole('admin')){
-                return redirect('/')->with('success', 'Anda Berhasil Login Sebagai Admin');
+                return redirect('/dashboard')->with('success', 'Anda Berhasil Login Sebagai Admin');
             }
 
-            return redirect('/')->with('success', 'Anda Berhasil Login Sebagai User');
-
-            // redirect(RouteServiceProvider::HOME)->with('success', 'Anda Berhasil Masuk Sebagai Admin');
+            return redirect('/dashboard')->with('success', 'Anda Berhasil Login Sebagai User');
         }
 
         throw ValidationException::withMessages([

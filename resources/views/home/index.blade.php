@@ -1,11 +1,13 @@
-<x-app-layout title="Home Page">
+@extends('dashboard.layouts.main')
+
+@section('container')
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 @if(session()->has('success'))
                 <div class="alert alert-success" role="alert">{{ session()->get('success') }}</div>
                 @endif
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-header">
                         Selamat Datang di Blog Laravel
                     </div>
@@ -17,4 +19,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
