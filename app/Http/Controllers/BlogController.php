@@ -23,8 +23,8 @@ class BlogController extends Controller
     public function store(BlogRequest $request)
     {
         $request->make();
-
-        return redirect()->back();
+        
+        return redirect()->route('blogs.index')->with('success', 'Data Blog berhasil di tambahkan');
     }
 
     public function show(Blog $blog)
@@ -42,10 +42,10 @@ class BlogController extends Controller
        $blog->update([
             'user_id' => Auth::id(),
             'judul' => $request->judul,
-            'body' => $request->body,
+            'body' => Str::limit(strip_tags($request->body), 200),
             'categories' => $request->categories
         ]);
-        return redirect()->route('blogs.index')->with('success', 'Data Blog berhasil di edit');;
+        return redirect()->route('blogs.index')->with('success', 'Data Blog berhasil di edit');
     }
 
     public function destroy(Blog $blog)
