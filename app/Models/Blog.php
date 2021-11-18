@@ -8,16 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
-    protected $fillable = ['body', 'identifier', 'judul'];
+    protected $fillable = ['body', 'identifier', 'judul', 'slug', 'categories'];
     
     public function getRouteKeyName()
     {
-        return 'id';
+        return 'slug';
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }

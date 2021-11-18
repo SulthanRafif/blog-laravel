@@ -1,5 +1,7 @@
 @extends('dashboard.layouts.main')
-
+@section('title')
+HOME
+@endsection
 @section('container')
     <div class="container">
         <div class="row">

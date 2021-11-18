@@ -43,12 +43,14 @@ class User extends Authenticatable
         return $this->hasMany(Blog::class);
     }
 
-    public function makeBlog($body, $judul)
+    public function makeBlog($body, $judul, $categories)
     {
         $this->blogs()->create([
+            'categories' => $categories,
             'judul' => $judul,
-            'body' => $body,
-            'identifier' => Str::slug(Str::random(31) . $this->id)
+            'body' => Str::limit(strip_tags($body), 200),
+            'identifier' => Str::slug(Str::random(31) . $this->id),
+            'slug' => Str::slug($judul)
         ]);
     }
 

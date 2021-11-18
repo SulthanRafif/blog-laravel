@@ -1,5 +1,7 @@
 @extends('dashboard.layouts.main')
-
+@section('title')
+DASHBOARD
+@endsection
 @section('container')
     @if(session()->has('success'))
         <div class="alert alert-success  mt-3" role="alert">{{ session()->get('success') }}</div>

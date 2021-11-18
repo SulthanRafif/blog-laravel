@@ -16,12 +16,13 @@ class BlogRequest extends FormRequest
     {
         return [
             'body' => 'required',
-            'judul' => 'required|max:25'
+            'judul' => 'required|max:25',
+            'categories' => 'required|max:25'
         ];
     }
 
     public function make()
     {
-        return Auth::user()->makeBlog($this->body, $this->judul);
+        return Auth::user()->makeBlog($this->body, $this->judul, $this->categories);
     }
 }

@@ -1,71 +1,47 @@
 @extends('dashboard.layouts.main')
-
+@section('title')
+POST
+@endsection
 @section('container')
     @if(session()->has('success'))
         <div class="alert alert-success  mt-3" role="alert">{{ session()->get('success') }}</div>
     @endif
-     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                @if(session()->has('success'))
-                <div class="alert alert-success" role="alert">{{ session()->get('success') }}</div>
-                @endif
-                 <div class="mb-2">
-                     <h1>
-                        Buat Postingan Blog
-                    </h1>
-                </div>
-                    <div class="mb-3">
-                        <form action="{{ route('blogs.store') }}" method="post">
-                            @csrf
-                            <div class="mb-4">
-                                <h2><label for="judul" class="form-label">Judul Blog</label></h2>
-                                <input type="text" name="judul" id="judul" value="{{ old('judul') }}" class="form-control @error('judul') is-invalid @enderror">
-                                @error('judul')
-                            <div class="text-danger mt-2">
-                                {{ $message }}
-                            </div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <h2><label for="body" class="form-label">Isi Blog</label></h2>
-                                <textarea placeholder="What's is on your mind ?" name="body" id="body" cols="2" rows="2" class="form-control  @error('body') is-invalid @enderror"></textarea>
-                                @error('body')
-                            <div class="text-danger mt-2">
-                                {{ $message }}
-                            </div>
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn btn-primary">Post</button>
-                        </form>
-                    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">My Posts</h1>
+    </div>
+      <div class="table-responsive col-lg-8">
+        <a href="{{ route('blogs.create') }}" class="badge bg-primary text-decoration-none link-light mb-3"><span data-feather="file-plus"></span> CREATE NEW POST</a>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Categories</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($blogs as $blog)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $blog->judul }}</td>
+              <td>{{ $blog->categories }}</td>
+              <td>{{ $blog->created_at->format("d F, Y") }}</td>
+              <td>  
                 <div>
-                     <h1>
-                        Daftar Blog
-                    </h1>
-                </div>
-                @foreach($blogs as $blog)
-                <div class="mb-3">
-                    <div>
-                        <h2>{{ $blog->judul }}</h2>
-                    </div>
-                    <div>
-                        <p>{{$blog->body}}</p>
-                    </div>
-                    <div>
-                        <p>{{$blog->created_at->format("d F, Y")}}</p>
-                    </div>
-                    <div>
-                        <a class="btn btn-primary me-2" href="{{ route('blogs.edit', $blog->id) }}">Edit Post</a>
-                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="post" style="display: inline">
+                    <a href="{{ route('blogs.show', $blog->slug) }}" class="badge bg-info text-decoration-none link-light mb-3"><span data-feather="eye"></span> Lihat Post</a>
+                    <a class="badge bg-warning text-decoration-none link-light mb-3" href="{{ route('blogs.edit', $blog->slug) }}"><span data-feather="edit"></span> Edit Post</a>
+                       <form action="{{ route('blogs.destroy', $blog->slug) }}" method="post" style="display: inline">
                             @csrf
                             @method('delete')
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                        </form>
-                    </div>
+                            <button class="badge bg-danger text-decoration-none link-light mb-3" type="submit"><span data-feather="x-circle"></span> Delete</button>
+                      </form>
                 </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
+            </td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
 @endsection

@@ -15,6 +15,11 @@ class BlogController extends Controller
         return view('blogs.index', compact('blogs'));
     }
 
+    public function create()
+    {
+        return view('blogs.create');
+    }
+
     public function store(BlogRequest $request)
     {
         $request->make();
@@ -22,24 +27,30 @@ class BlogController extends Controller
         return redirect()->back();
     }
 
+    public function show(Blog $blog)
+    {
+        return view('blogs.show', ['blog' => $blog]);
+    }
+
     public function edit(Blog $blog)
     {
         return view('blogs.edit', ['blog' => $blog]);
     }
 
-    public function update(Request $request, $id)
+    public function update(BlogRequest $request, Blog $blog)
     {
-        Blog::find($id)->update([
+       $blog->update([
             'user_id' => Auth::id(),
             'judul' => $request->judul,
             'body' => $request->body,
+            'categories' => $request->categories
         ]);
-        return redirect('blogs');
+        return redirect()->route('blogs.index')->with('success', 'Data Blog berhasil di edit');;
     }
 
-    public function destroy($id)
+    public function destroy(Blog $blog)
     {
-        Blog::find($id)->delete();
+        $blog->delete();
         return back();
     }
 }
