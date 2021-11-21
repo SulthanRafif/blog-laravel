@@ -4,24 +4,34 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-    <div class="navbar-nav" style="display: inline-block"> 
-        @guest
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('login')}}">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('register')}}">Register</a>
-        </li>
-        @else
+    @guest
+    <div class="navbar-nav"> 
+        <div class="nav-item text-nowrap">
+            <a href="{{route('login')}}" class="nav-link px-3 bg-dark border-0">
+            <span data-feather="log-in"></span>
+                Login
+            </a>
+        </div>
+    </div>
+    <div class="navbar-nav"> 
+        <div class="nav-item text-nowrap">
+            <a href="{{route('register')}}" class="nav-link px-3 bg-dark border-0">
+            <span data-feather="user"></span>
+                Register
+            </a>
+        </div>
+    </div>
+    @else
+    <div class="navbar-nav"> 
         <div class="nav-item text-nowrap">
             <form action="{{route('logout')}}" method="post">
                 @csrf
                 <button type="submit" class="nav-link px-3 bg-dark border-0">
-                    Logout
                     <span data-feather="log-out"></span>
+                    Logout
                 </button>
             </form>
         </div>
-        @endguest
     </div>
+    @endguest
     </header>
